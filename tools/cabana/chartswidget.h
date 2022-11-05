@@ -21,7 +21,7 @@ class ChartView : public QChartView {
 
 public:
   ChartView(const QString &id, const Signal *sig, QWidget *parent = nullptr);
-  void updateSeries(const std::pair<double, double> &range);
+  void updateSeries(const std::pair<double, double> range);
   void setRange(double min, double max, bool force_update = false);
   void updateLineMarker(double current_sec);
   void updateFromSettings();
@@ -42,7 +42,7 @@ private:
   QGraphicsEllipseItem *track_ellipse;
   QGraphicsTextItem *value_text;
   QGraphicsLineItem *line_marker;
-  QList<QPointF> vals;
+  QVector<QPointF> vals;
   QString id;
   const Signal *signal;
 };
@@ -73,12 +73,15 @@ class ChartsWidget : public QWidget {
 
 public:
   ChartsWidget(QWidget *parent = nullptr);
-  void addChart(const QString &id, const Signal *sig);
+  void showChart(const QString &id, const Signal *sig, bool show);
   void removeChart(ChartWidget *chart);
+  bool isChartOpened(const QString &id, const Signal *sig);
 
 signals:
   void dock(bool floating);
   void rangeChanged(double min, double max, bool is_zommed);
+  void chartOpened(const QString &id, const Signal *sig);
+  void chartClosed(const QString &id, const Signal *sig);
 
 private:
   void eventsMerged();

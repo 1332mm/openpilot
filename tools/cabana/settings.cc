@@ -25,7 +25,7 @@ void Settings::save() {
 void Settings::load() {
   QSettings s("settings", QSettings::IniFormat);
   fps = s.value("fps", 10).toInt();
-  can_msg_log_size = s.value("log_size", 100).toInt();
+  can_msg_log_size = s.value("log_size", 50).toInt();
   cached_segment_limit = s.value("cached_segment", 3).toInt();
   chart_height = s.value("chart_height", 200).toInt();
   chart_theme = s.value("chart_theme", 0).toInt();
@@ -55,19 +55,19 @@ SettingsDlg::SettingsDlg(QWidget *parent) : QDialog(parent) {
   cached_segment->setRange(3, 60);
   cached_segment->setSingleStep(1);
   cached_segment->setValue(settings.cached_segment_limit);
-  form_layout->addRow(tr("Cached segments limit(minute)"), cached_segment);
+  form_layout->addRow(tr("Cached segments limit"), cached_segment);
 
   max_chart_x_range = new QSpinBox(this);
   max_chart_x_range->setRange(1, 60);
   max_chart_x_range->setSingleStep(1);
   max_chart_x_range->setValue(settings.max_chart_x_range / 60);
-  form_layout->addRow(tr("Chart's max X-axis range(minute)"), max_chart_x_range);
+  form_layout->addRow(tr("Chart range (minutes)"), max_chart_x_range);
 
   chart_height = new QSpinBox(this);
   chart_height->setRange(100, 500);
   chart_height->setSingleStep(10);
   chart_height->setValue(settings.chart_height);
-  form_layout->addRow(tr("Chart's height"), chart_height);
+  form_layout->addRow(tr("Chart height"), chart_height);
 
   chart_theme = new QComboBox();
   chart_theme->addItems({"Light", "Dark"});
